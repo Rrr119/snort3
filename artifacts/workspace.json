@@ -1,0 +1,17 @@
+{
+  "root": "/home/dev/feedback/uid23208",
+  "B": "/home/dev/feedback/uid23208",
+  "sha": "fe29cbe7403acc0dd428065a69d8f29cc311c18e",
+  "wslDistro": "Ubuntu-26.04",
+  "source": {
+    "owner": "snort3",
+    "repo": "snort3",
+    "sha": "fe29cbe7403acc0dd428065a69d8f29cc311c18e"
+  },
+  "fork": {
+    "owner": "Rrr119",
+    "repo": "snort3",
+    "cloneUrl": "https://github.com/Rrr119/snort3.git"
+  },
+  "at": "2026-11-16T16:45:22.533Z"
+}

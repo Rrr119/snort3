@@ -74,6 +74,23 @@ TEST(pub_sub_http_body_event_test, empty_data_event)
     CHECK(out_last_piece == last_piece);
 }
 
+TEST(pub_sub_http_body_event_test, doh_event_carries_stream_id)
+{
+    const uint8_t body[] = { 0x12, 0x34 };
+    const int64_t stream_id = 7;
+
+    HttpDohBodyEvent event(body, sizeof(body), true, false, stream_id);
+
+    int32_t out_message_length;
+    const uint8_t* out_message = event.get_body(out_message_length);
+
+    CHECK(out_message == body);
+    CHECK(out_message_length == static_cast<int32_t>(sizeof(body)));
+    CHECK(event.is_data_from_client());
+    CHECK_FALSE(event.is_last_piece());
+    CHECK(event.get_httpx_stream_id() == stream_id);
+}
+
 int main(int argc, char** argv)
 {
     return CommandLineTestRunner::RunAllTests(argc, argv);

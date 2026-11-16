@@ -4,6 +4,7 @@ add_subdirectory(cip)
 add_subdirectory(dce_rpc)
 add_subdirectory(dnp3)
 add_subdirectory(dns)
+add_subdirectory(doh_inspect)
 add_subdirectory(ftp_telnet)
 add_subdirectory(gtp)
 add_subdirectory(http_inspect)
@@ -55,6 +56,7 @@ set(STATIC_SERVICE_INSPECTOR_PLUGINS
     $<TARGET_OBJECTS:http2_inspect>
     $<TARGET_OBJECTS:sip>
     $<TARGET_OBJECTS:dns>
+    $<TARGET_OBJECTS:doh_inspect>
     $<TARGET_OBJECTS:socks>
     ${STATIC_INSPECTOR_OBJS}
     CACHE INTERNAL "STATIC_SERVICE_INSPECTOR_PLUGINS"

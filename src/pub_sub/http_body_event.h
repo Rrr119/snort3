@@ -20,6 +20,8 @@
 #ifndef HTTP_BODY_EVENT_H
 #define HTTP_BODY_EVENT_H
 
+#include <cstdint>
+
 #include "framework/data_bus.h"
 
 namespace snort
@@ -43,6 +45,38 @@ private:
     const int32_t http_body_length;
     const bool is_data_originates_from_client;
     const bool last_piece;
+};
+
+class SO_PUBLIC HttpDohBodyEvent : public snort::DataEvent
+{
+public:
+    HttpDohBodyEvent(const uint8_t* body, int32_t length, bool from_client, bool last_piece,
+        int64_t httpx_stream_id)
+        : body(body), length(length), from_client(from_client), last_piece(last_piece),
+        httpx_stream_id(httpx_stream_id)
+    { }
+
+    const uint8_t* get_body(int32_t& body_length) const
+    {
+        body_length = length;
+        return body;
+    }
+
+    bool is_data_from_client() const
+    { return from_client; }
+
+    bool is_last_piece() const
+    { return last_piece; }
+
+    int64_t get_httpx_stream_id() const
+    { return httpx_stream_id; }
+
+private:
+    const uint8_t* body;
+    const int32_t length;
+    const bool from_client;
+    const bool last_piece;
+    const int64_t httpx_stream_id;
 };
 
 } // namespace snort

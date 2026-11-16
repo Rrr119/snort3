@@ -48,6 +48,10 @@ include::dump_config.txt[]
 
 include::dcerpc.txt[]
 
+=== DNS over HTTPS Inspector
+
+include::doh_inspect.txt[]
+
 === File Processing
 
 include::file_processing.txt[]

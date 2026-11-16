@@ -28,6 +28,7 @@
 using namespace snort;
 
 extern const BaseApi* sin_dns[];
+extern const BaseApi* sin_doh[];
 extern const BaseApi* sin_file[];
 extern const BaseApi* sin_http[];
 extern const BaseApi* sin_http2[];
@@ -87,6 +88,7 @@ void load_service_inspectors()
     PluginManager::load_plugins(service_inspectors);
 
     PluginManager::load_plugins(sin_dns);
+    PluginManager::load_plugins(sin_doh);
     PluginManager::load_plugins(sin_file);
     PluginManager::load_plugins(sin_http);
     PluginManager::load_plugins(sin_http2);

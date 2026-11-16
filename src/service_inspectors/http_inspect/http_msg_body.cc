@@ -165,11 +165,14 @@ void HttpMsgBody::publish(unsigned pub_id)
         auto doh_publish_length = (publish_length > doh_publish_depth_remaining) ?
             doh_publish_depth_remaining : publish_length;
         auto doh_last_piece = last_piece ? true : (publish_octets + doh_publish_length >= BODY_PUBLISH_DEPTH);
-        DnsPayloadEvent dns_payload_event(msg_text_new.start(), publish_length, is_request,
+        DnsPayloadEvent dns_payload_event(msg_text_new.start(), doh_publish_length, is_request,
             true, doh_last_piece);
-        DnsDataStash* stash = new DnsDataStash(msg_text_new.start(), publish_length);
+        DnsDataStash* stash = new DnsDataStash(msg_text_new.start(), doh_publish_length);
         flow->set_attr(STASH_DNS_DATA, stash);
         DataBus::publish(intrinsic_pub_id, IntrinsicEventIds::DNS_PAYLOAD, dns_payload_event, flow);
+        HttpDohBodyEvent doh_body_event(msg_text_new.start(), doh_publish_length, is_request,
+            doh_last_piece, session_data->get_hx_stream_id());
+        DataBus::publish(pub_id, HttpEventIds::DOH_BODY, doh_body_event, flow);
     #ifdef REG_TEST
         if (HttpTestManager::use_test_output(HttpTestManager::IN_HTTP))
         {

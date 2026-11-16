@@ -1,0 +1,77 @@
+The `doh_inspect` inspector identifies DNS over HTTPS (DoH) traffic that is
+already being parsed by `http_inspect` and records the DNS query domain.
+
+==== Overview
+
+DoH carries DNS wire-format messages in HTTP requests and responses. Snort
+cannot inspect DoH inside encrypted TLS unless the HTTP traffic is available
+to `http_inspect` (for example, at a TLS-terminating sensor). Once HTTP
+headers and body data are available, `doh_inspect` recognizes the standard
+DoH endpoint and extracts the query name from the DNS question section.
+
+`doh_inspect` is a passive inspector. It subscribes to events published by
+`http_inspect`; it does not take over the HTTP stream and can be enabled
+alongside the existing HTTP/1.1 and HTTP/2 inspectors.
+
+==== Configuration
+
+Both inspectors must be configured:
+
+    http_inspect = {}
+    doh_inspect = {}
+
+`http_inspect` must also be bound to the HTTP ports or services in the usual
+way. For HTTP/2 DoH, configure and bind `http2_inspect` as well.
+
+By default, `doh_inspect` recognizes:
+
+* The `/dns-query` HTTP path
+* The `application/dns-message` media type
+* GET requests with a base64url-encoded `dns` query parameter (RFC 8484)
+* POST requests whose body is a DNS message
+* DoH responses carrying `application/dns-message`
+
+The path list is configurable:
+
+    doh_inspect =
+    {
+        paths = '/dns-query,/custom-dns-query',
+    }
+
+The inspector extracts the query name from the first question in the DNS
+message. Extracted names are available to other modules through the
+`doh_inspect` DataBus publisher and `DOH_DOMAIN` event. Each unique domain
+is recorded once per HTTP transaction.
+
+==== Trace
+
+Enable DoH trace to record the detected endpoint and query domain:
+
+    trace =
+    {
+        modules =
+        {
+            doh_inspect = { all = 1 }
+        }
+    }
+
+Example trace output:
+
+    doh_inspect: DoH request domain 'example.com' (type 1, class 1), \
+        path '/dns-query', content-type ''
+
+==== Peg Counts
+
+* `doh_inspect.requests`: DoH requests detected
+* `doh_inspect.responses`: DoH responses detected
+* `doh_inspect.get_requests`: DoH GET requests detected
+* `doh_inspect.post_requests`: DoH POST requests detected
+* `doh_inspect.domains`: unique query domains extracted per transaction
+* `doh_inspect.malformed_queries`: malformed DNS queries in DoH requests
+* `doh_inspect.malformed_payloads`: malformed DNS payloads in DoH messages
+
+==== Test Capture
+
+`src/service_inspectors/doh_inspect/test/doh_inspect.pcap` contains one GET
+and one POST DoH transaction. The expected domains are `example.com` and
+`dns.google`; see the test README for the expected peg counts.

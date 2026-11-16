@@ -14,6 +14,7 @@ set (
     dump_config.txt
     daq.txt
     dcerpc.txt
+    doh_inspect.txt
     errors.txt
     extractor.txt
     features.txt

@@ -41,6 +41,7 @@ set (PUB_SUB_INCLUDES
     ssl_events.h
     stream_event_ids.h
     dns_payload_event.h
+    doh_events.h
     deviceinfo_events.h
 )
 
