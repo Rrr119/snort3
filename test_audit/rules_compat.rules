@@ -1,0 +1,3 @@
+alert tcp any any -> any any (msg:"ALERT tcp compat"; content:"audit_tcp_secret"; sid:1000004;)
+log udp any any -> any any (msg:"LOG udp compat"; content:"audit_udp_secret"; sid:1000005;)
+drop icmp any any -> any any (msg:"DROP icmp compat"; content:"audit_icmp_secret"; sid:1000006;)

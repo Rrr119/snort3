@@ -8,6 +8,7 @@ set (IPS_ACTION_SOURCES
 
 set( PLUGIN_LIST
     act_alert.cc
+    act_audit.cc
     act_block.cc
     act_drop.cc
     act_file_id.cc
@@ -31,6 +32,7 @@ else (STATIC_IPS_ACTIONS)
     )
 
     add_dynamic_module(act_alert ips_actions act_alert.cc)
+    add_dynamic_module(act_audit ips_actions act_audit.cc)
     add_dynamic_module(act_block ips_actions act_block.cc)
     add_dynamic_module(act_drop ips_actions act_drop.cc)
     add_dynamic_module(act_file_id ips_actions act_file_id.cc)

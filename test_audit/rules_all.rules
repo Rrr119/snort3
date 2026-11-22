@@ -1,0 +1,6 @@
+audit tcp any any -> any any (msg:"AUDIT tcp match"; content:"audit_tcp_secret"; sid:1000001;)
+audit udp any any -> any any (msg:"AUDIT udp match"; content:"audit_udp_secret"; sid:1000002;)
+audit icmp any any -> any any (msg:"AUDIT icmp match"; content:"audit_icmp_secret"; sid:1000003;)
+alert tcp any any -> any any (msg:"ALERT tcp compat"; content:"audit_tcp_secret"; sid:1000004;)
+log udp any any -> any any (msg:"LOG udp compat"; content:"audit_udp_secret"; sid:1000005;)
+drop icmp any any -> any any (msg:"DROP icmp compat"; content:"audit_icmp_secret"; sid:1000006;)

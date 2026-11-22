@@ -29,6 +29,7 @@ using namespace snort;
 
 #ifdef STATIC_IPS_ACTIONS
 extern const BaseApi* act_alert[];
+extern const BaseApi* act_audit[];
 extern const BaseApi* act_block[];
 extern const BaseApi* act_drop[];
 extern const BaseApi* act_file_id[];
@@ -43,6 +44,7 @@ void load_actions()
 {
 #ifdef STATIC_IPS_ACTIONS
     PluginManager::load_plugins(act_alert);
+    PluginManager::load_plugins(act_audit);
     PluginManager::load_plugins(act_block);
     PluginManager::load_plugins(act_drop);
     PluginManager::load_plugins(act_file_id);
